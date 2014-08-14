@@ -1,4 +1,12 @@
-var express         = require('express');
+// Dependencies
+var express        = require('express');
+var morgan         = require('morgan');
+var bodyParser     = require('body-parser');
+var methodOverride = require('method-override');
+//var oauthserver    = require('node-oauth2-server');
+
+
+
 var path            = require('path');
 var passport        = require('passport');
 var config          = require('./libs/config');
@@ -7,12 +15,20 @@ var oauth2          = require('./libs/oauth2');
 var ArticleModel    = require('./libs/mongoose').ArticleModel;
 var app = express();
 
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
+//App config
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+app.use(methodOverride());
+
+
+
+//app.use(express.favicon());
+//app.use(express.logger('dev'));
+//app.use(express.bodyParser());
 app.use(passport.initialize());
-app.use(express.methodOverride());
-app.use(app.router);
+
+//app.use(express.methodOverride());
+//app.use(app.router);
 app.use(express.static(path.join(__dirname, "public")));
 
 require('./libs/auth');
